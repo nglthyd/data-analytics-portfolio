@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+*.zip
+*.csv
+*.docx
+*.pdf
+screenshots/
+task_plan.md
+findings.md
+progress.md
+site/
