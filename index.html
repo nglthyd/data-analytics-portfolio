@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="刘涛的数据分析作品集：Olist 获客渠道分析与陶瓷相关零售数据分析。公开分析口径、SQL 与局限。">
+    <title>刘涛｜数据分析作品集</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="data/metrics.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <div class="page-shell">
+      <aside class="rail" aria-label="页面导航">
+        <a class="brand" href="#top" aria-label="返回页首"><span class="brand-mark">LT</span><span>刘涛<br><small>数据分析作品集</small></span></a>
+        <nav>
+          <a href="#olist">营销漏斗</a>
+          <a href="#ceramic">零售分析</a>
+          <a href="#method">方法与边界</a>
+          <a href="#contact">联系我</a>
+        </nav>
+        <p class="rail-note">一份能复算、能解释、也能说明局限的分析作品。</p>
+      </aside>
+
+      <main id="main">
+        <header class="hero" id="top">
+          <div class="hero-copy">
+            <p class="kicker">求职方向：数据分析 / 数据运营</p>
+            <h1>先把问题和口径说清楚，<br>再谈漂亮的结论。</h1>
+            <p class="hero-intro">这里展示两份公开数据案例：获客渠道分析与陶瓷相关零售分析。重点不是堆工具，而是让每个关键数字都能回到原始数据、计算方法和业务问题。</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#olist">查看主案例</a>
+              <a class="button quiet" href="#contact">联系刘涛</a>
+            </div>
+          </div>
+          <div class="hero-side" aria-label="作品集原则">
+            <p>01 / 可复算</p>
+            <strong>仓库保留计算脚本与 SQL</strong>
+            <p>02 / 有边界</p>
+            <strong>不把相关性写成因果</strong>
+            <p>03 / 面向业务</p>
+            <strong>建议能对应下一步验证</strong>
+          </div>
+        </header>
+
+        <section class="case" id="olist" aria-labelledby="olist-title">
+          <div class="section-heading">
+            <p class="section-type">主案例 · 营销分析</p>
+            <h2 id="olist-title">8,000 条线索里，哪些渠道值得继续验证？</h2>
+            <p>基于 Olist 公开的真实、匿名、抽样营销漏斗数据。把线索表与成交表按 <code>mql_id</code> 关联，对比渠道的线索量与成交率；不把高成交率直接等同于高回报。</p>
+          </div>
+
+          <div class="metrics-line" aria-label="全量数据概况">
+            <div><span>全量 MQL</span><strong id="all-leads">—</strong></div>
+            <div><span>已成交</span><strong id="all-wins">—</strong></div>
+            <div><span>整体成交率</span><strong id="all-conversion">—</strong></div>
+            <div class="metrics-context">全量用于审计；渠道比较采用 2018 年 1–4 月同一线索期。</div>
+          </div>
+
+          <div class="analysis-grid">
+            <div class="chart-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>主要可识别渠道</h3>
+                  <p>2018 年 1–4 月新线索；每条线索只计一次。条长为成交率，右列保留样本量。</p>
+                </div>
+                <div class="panel-total"><strong id="focus-conversion">—</strong><span>同期总体成交率</span></div>
+              </div>
+              <div class="scale" aria-hidden="true"><span>0%</span><span>10%</span><span>20%</span></div>
+              <div class="channel-chart" id="channel-chart" role="list" aria-label="渠道成交率对比"></div>
+              <p class="chart-note">仅展示线索量不少于 150 的明确来源渠道；所有类别见下方明细。样本量不是投放成本。</p>
+            </div>
+            <aside class="finding-panel" aria-labelledby="reading-title">
+              <p class="section-type">读数方法</p>
+              <h3 id="reading-title">先看可行动的差异</h3>
+              <p><b>搜索渠道</b>：付费搜索 <span id="paid-rate">—</span>，自然搜索 <span id="organic-rate">—</span>，差距很小。不能仅凭此决定预算，下一步要补成本与获客价值。</p>
+              <p><b>低转化渠道</b>：社交 <span id="social-rate">—</span>、邮件 <span id="email-rate">—</span>；优先检查落地页、受众与销售跟进，而非马上停投。</p>
+              <p><b>归因缺口</b>：<code>unknown</code> 成交率 <span id="unknown-rate">—</span>，但不是可购买的渠道。先修复来源标记，再谈重新分配预算。</p>
+            </aside>
+          </div>
+
+          <details class="detail-table">
+            <summary>展开全部渠道：样本量、成交数与成交率</summary>
+            <div class="table-wrap">
+              <table>
+                <caption>Olist 2018 年 1–4 月新线索渠道明细</caption>
+                <thead><tr><th scope="col">原始来源</th><th scope="col">线索</th><th scope="col">成交</th><th scope="col">成交率</th><th scope="col">解释</th></tr></thead>
+                <tbody id="channel-table"></tbody>
+              </table>
+            </div>
+          </details>
+
+          <div class="decision-strip">
+            <div><span>推荐的下一步</span><h3>做渠道分层试验，而不是直接给预算排名</h3></div>
+            <p>先统一 UTM / 来源标记和线索质量口径；为搜索、社交、邮件分别补齐投放成本、跟进时长和后续卖家价值，再比较单位成本有效成交。当前数据只能支持“优先排查与验证”，不能计算 ROI。</p>
+          </div>
+        </section>
+
+        <section class="case ceramic-case" id="ceramic" aria-labelledby="ceramic-title">
+          <div class="section-heading">
+            <p class="section-type">第二案例 · 零售经营分析</p>
+            <h2 id="ceramic-title">从交易明细中识别陶瓷相关商品的经营结构</h2>
+            <p>从公开英国零售交易数据中，按陶瓷相关关键词形成可追溯子集，做清洗、销售汇总与客户分层，并把结果放进可视化看板。</p>
+          </div>
+          <div class="ceramic-layout">
+            <figure class="preview">
+              <img src="assets/ceramic-overview.png" loading="lazy" width="1440" height="900" alt="陶瓷相关零售交易分析看板截图，展示审计记录、有效销售额、订单、商品和客户数量">
+              <figcaption>项目看板截图。拍卖与英国零售是分开的数据源，图中零售数字不含拍卖数据。</figcaption>
+            </figure>
+            <div class="ceramic-facts">
+              <div><span>关键词审计记录</span><strong>22,427</strong></div>
+              <div><span>有效交易记录</span><strong>21,655</strong></div>
+              <div><span>商品 / 客户</span><strong>78 / 2,585</strong></div>
+              <p>边界：这是历史公开零售数据中的“陶瓷相关关键词子集”，不是中国陶瓷行业市场份额，也不是 387 条拍卖成交数据。销售额另按 21,541 条严格销售记录汇总，为 GBP 450,066.19。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="method-section" id="method" aria-labelledby="method-title">
+          <div class="section-heading">
+            <p class="section-type">方法与边界</p>
+            <h2 id="method-title">可以复算，也欢迎追问</h2>
+          </div>
+          <div class="method-grid">
+            <div><h3>数据口径</h3><p>全量为 8,000 条 MQL、842 条匹配成交；2017 年下半年各月成交率与 2018 年初差别很大，渠道比较固定在 2018 年 1–4 月的 4,695 条线索与 651 条成交，避免直接混合不同月份。这个窗口仍是观察性比较，不代表因果。</p></div>
+            <div><h3>质量检查</h3><p>两表 <code>mql_id</code> 均无重复、成交可全部关联；60 条线索缺来源，1 条成交时间早于首次联系时间。后者排除在成交时滞统计之外，不从成交数中删掉。</p></div>
+            <div><h3>已知不足</h3><p>缺少投放花费、流失线索的完整销售过程和后续订单价值，因此不能算 CAC、ROI 或渠道增量贡献。<code>unknown</code> 与缺失来源不可直接当成投放渠道。</p></div>
+            <div><h3>AI 协作说明</h3><p>本作品使用 Codex 辅助编写数据处理、网页和核验脚本；仓库保留代码与查询供复算。作品中的业务判断应以数据和可解释的假设为依据，而不是以 AI 生成文本为证据。</p></div>
+          </div>
+          <div class="source-line">
+            <span>数据与代码</span>
+            <a href="https://github.com/olist/work-at-olist-marketing" target="_blank" rel="noopener noreferrer">Olist 官方分析题</a>
+            <a href="https://www.kaggle.com/datasets/olistbr/marketing-funnel-olist" target="_blank" rel="noopener noreferrer">原始数据与许可</a>
+            <a id="source-code-link" href="https://github.com/nglthyd/data-analytics-portfolio" target="_blank" rel="noopener noreferrer">私有仓库中的复算脚本与 SQL（需登录）</a>
+          </div>
+          <p class="licence-note">Olist 数据由原发布方提供，原始 CSV 未在此仓库重新分发。数据来源页面标注 CC BY-NC-SA 4.0；本页分析结果仅用于非商业求职展示。</p>
+        </section>
+
+        <footer id="contact">
+          <div><p class="section-type">联系</p><h2>刘涛</h2><p>如果想讨论指标口径、业务判断或项目细节，欢迎联系。</p></div>
+          <a class="contact-link" href="tel:19579758945" aria-label="拨打刘涛的电话 19579758945">195 7975 8945</a>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
