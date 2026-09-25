@@ -35,7 +35,7 @@
 - Modify: `E:\projects\data-analytics-portfolio\findings.md`
 - Modify: `E:\projects\data-analytics-portfolio\progress.md`
 
-- [ ] **Step 1: Download from the official Kaggle dataset endpoint**
+- [x] **Step 1: Download from the official Kaggle dataset endpoint**
 
 Run in PowerShell:
 
@@ -45,19 +45,19 @@ Invoke-WebRequest -Uri 'https://www.kaggle.com/api/v1/datasets/download/olistbr/
 
 Expected: a non-empty ZIP; do not continue if the response is HTML or an error page.
 
-- [ ] **Step 2: Inspect ZIP names before extraction**
+- [x] **Step 2: Inspect ZIP names before extraction**
 
 Expected: nine Olist CSV files including orders, order_items, sellers, customers, products, payments, reviews, geolocation, and category translation.
 
-- [ ] **Step 3: Extract to the explicit data directory**
+- [x] **Step 3: Extract to the explicit data directory**
 
 Expected: original CSVs remain outside the repository.
 
-- [ ] **Step 4: Run a shape/key/missing-value inventory**
+- [x] **Step 4: Run a shape/key/missing-value inventory**
 
 Required checks: rows, columns, duplicate candidate keys, missing `seller_id`, timestamp min/max, order-status counts, and item-row uniqueness.
 
-- [ ] **Step 5: Record source URL, SHA256 hashes, shapes, and audit findings**
+- [x] **Step 5: Record source URL, SHA256 hashes, shapes, and audit findings**
 
 Use `apply_patch`; never write raw data or personal paths into the public README.
 
