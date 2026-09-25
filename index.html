@@ -112,7 +112,7 @@
               <div><span>关键词审计记录</span><strong>22,427</strong></div>
               <div><span>有效交易记录</span><strong>21,655</strong></div>
               <div><span>商品 / 客户</span><strong>78 / 2,585</strong></div>
-              <p>边界：这是历史公开零售数据中的“陶瓷相关关键词子集”，不是中国陶瓷行业市场份额，也不是 387 条拍卖成交数据。销售额口径为有效交易的 GBP 450,066.19。</p>
+              <p>边界：这是历史公开零售数据中的“陶瓷相关关键词子集”，不是中国陶瓷行业市场份额，也不是 387 条拍卖成交数据。销售额另按 21,541 条严格销售记录汇总，为 GBP 450,066.19。</p>
             </div>
           </div>
         </section>
@@ -123,7 +123,7 @@
             <h2 id="method-title">可以复算，也欢迎追问</h2>
           </div>
           <div class="method-grid">
-            <div><h3>数据口径</h3><p>全量为 8,000 条 MQL、842 条匹配成交；为了避开早期月份明显不同的覆盖情况，渠道比较固定在 2018 年 1–4 月的 4,695 条线索与 651 条成交。这个窗口仍是观察性比较，不代表因果。</p></div>
+            <div><h3>数据口径</h3><p>全量为 8,000 条 MQL、842 条匹配成交；2017 年下半年各月成交率与 2018 年初差别很大，渠道比较固定在 2018 年 1–4 月的 4,695 条线索与 651 条成交，避免直接混合不同月份。这个窗口仍是观察性比较，不代表因果。</p></div>
             <div><h3>质量检查</h3><p>两表 <code>mql_id</code> 均无重复、成交可全部关联；60 条线索缺来源，1 条成交时间早于首次联系时间。后者排除在成交时滞统计之外，不从成交数中删掉。</p></div>
             <div><h3>已知不足</h3><p>缺少投放花费、流失线索的完整销售过程和后续订单价值，因此不能算 CAC、ROI 或渠道增量贡献。<code>unknown</code> 与缺失来源不可直接当成投放渠道。</p></div>
             <div><h3>AI 协作说明</h3><p>本作品使用 Codex 辅助编写数据处理、网页和核验脚本；仓库保留代码与查询供复算。作品中的业务判断应以数据和可解释的假设为依据，而不是以 AI 生成文本为证据。</p></div>
@@ -132,7 +132,7 @@
             <span>数据与代码</span>
             <a href="https://github.com/olist/work-at-olist-marketing" target="_blank" rel="noopener noreferrer">Olist 官方分析题</a>
             <a href="https://www.kaggle.com/datasets/olistbr/marketing-funnel-olist" target="_blank" rel="noopener noreferrer">原始数据与许可</a>
-            <a id="source-code-link" href="https://github.com/nglthyd/data-analytics-portfolio" target="_blank" rel="noopener noreferrer">私有仓库中的复算脚本与 SQL（需登录）</a>
+            <a id="source-code-link" href="https://github.com/nglthyd/data-analytics-portfolio" target="_blank" rel="noopener noreferrer">查看复算脚本与 SQL（GitHub）</a>
           </div>
           <p class="licence-note">Olist 数据由原发布方提供，原始 CSV 未在此仓库重新分发。数据来源页面标注 CC BY-NC-SA 4.0；本页分析结果仅用于非商业求职展示。</p>
         </section>

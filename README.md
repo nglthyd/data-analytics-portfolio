@@ -1,6 +1,6 @@
 # 刘涛的数据分析作品集
 
-本仓库是暂不公开的作品集预览版，包含两个案例：Olist 营销漏斗渠道分析与陶瓷相关零售交易分析。网页入口为仓库根目录的 `index.html`。页面个人信息仅有姓名和本人授权的联系电话；仓库保持私有，GitHub Pages 不启用。
+本仓库是刘涛的公开数据分析作品集，包含两个案例：Olist 营销漏斗渠道分析与陶瓷相关零售交易分析。网页入口为仓库根目录的 `index.html`；页面个人信息仅展示姓名和本人授权的联系电话。
 
 ## 主案例：Olist 获客渠道
 
@@ -24,15 +24,15 @@
 
 ```powershell
 python -m pip install pandas
-python .\analysis.py --data-dir 'E:\data_analysis\olist-marketing\source'
-python .\verify.py --data-dir 'E:\data_analysis\olist-marketing\source'
+python .\analysis.py --data-dir '你的原始CSV目录'
+python .\verify.py --data-dir '你的原始CSV目录'
 ```
 
-把示例路径换成你保存 CSV 的目录。`analysis.py` 生成网页使用的 `data/metrics.js`；`verify.py` 用内存 SQLite 独立执行 [`queries.sql`](queries.sql) 中三组 SQL，与 Python 的总量、渠道和月度结果逐项比对，并检查主键、缺失和异常日期。网页是静态 HTML/CSS/JS，可在本机打开预览；**不要为当前私有预览版开启 GitHub Pages**。
+把示例路径换成你保存 CSV 的目录。`analysis.py` 生成网页使用的 `data/metrics.js`；`verify.py` 用内存 SQLite 独立执行 [`queries.sql`](queries.sql) 中三组 SQL，与 Python 的总量、渠道和月度结果逐项比对，并检查主键、缺失和异常日期。网页是静态 HTML/CSS/JS，可在本机打开预览。
 
 ## 第二案例：陶瓷相关零售交易
 
-从公开英国零售数据中按陶瓷相关关键词形成审计子集：22,427 条原始匹配记录，保留 21,655 条有效交易；78 个商品、2,585 个客户，有效销售额 GBP 450,066.19。页面展示看板截图。该子集不代表中国陶瓷行业整体，也不包含另一个拍卖数据源；不把关键词命中视为完美的行业分类。
+从公开英国零售数据中按陶瓷相关关键词形成审计子集：22,427 条原始匹配记录，保留 21,655 条历史有效交易；78 个商品、2,585 个客户。有效销售额 GBP 450,066.19 使用进一步排除退款、零价和非正数量后的 21,541 条严格销售记录。页面展示看板截图。该子集不代表中国陶瓷行业整体，也不包含另一个拍卖数据源；不把关键词命中视为完美的行业分类。
 
 ## 数据授权与 AI 协作
 
