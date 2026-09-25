@@ -1,8 +1,8 @@
 """Reproduce the Olist funnel portfolio numbers from the two original CSV files.
 
 Usage (PowerShell):
-python analysis.py --data-dir "E:/data_analysis/olist-marketing/source" `
-  --ecommerce-dir "E:/data_analysis/olist-marketing/ecommerce-source"
+python analysis.py --data-dir ".\\data\\marketing" `
+  --ecommerce-dir ".\\data\\ecommerce"
 The public repository intentionally does not redistribute the source CSV files.
 """
 
