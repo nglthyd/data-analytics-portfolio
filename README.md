@@ -1,6 +1,6 @@
 # 刘涛的数据分析作品集
 
-本仓库是暂不公开的作品集预览版，包含两个案例：Olist 营销漏斗渠道分析与陶瓷相关零售交易分析。网页入口为仓库根目录的 `index.html`。页面个人信息仅有姓名和本人授权的联系电话；仓库保持私有，GitHub Pages 不启用。
+本仓库是刘涛的公开数据分析作品集，包含两个案例：Olist 营销漏斗渠道分析与陶瓷相关零售交易分析。网页入口为仓库根目录的 `index.html`；页面个人信息仅展示姓名和本人授权的联系电话。
 
 ## 主案例：Olist 获客渠道
 
@@ -24,11 +24,11 @@
 
 ```powershell
 python -m pip install pandas
-python .\analysis.py --data-dir 'E:\data_analysis\olist-marketing\source'
-python .\verify.py --data-dir 'E:\data_analysis\olist-marketing\source'
+python .\analysis.py --data-dir '你的原始CSV目录'
+python .\verify.py --data-dir '你的原始CSV目录'
 ```
 
-把示例路径换成你保存 CSV 的目录。`analysis.py` 生成网页使用的 `data/metrics.js`；`verify.py` 用内存 SQLite 独立执行 [`queries.sql`](queries.sql) 中三组 SQL，与 Python 的总量、渠道和月度结果逐项比对，并检查主键、缺失和异常日期。网页是静态 HTML/CSS/JS，可在本机打开预览；**不要为当前私有预览版开启 GitHub Pages**。
+把示例路径换成你保存 CSV 的目录。`analysis.py` 生成网页使用的 `data/metrics.js`；`verify.py` 用内存 SQLite 独立执行 [`queries.sql`](queries.sql) 中三组 SQL，与 Python 的总量、渠道和月度结果逐项比对，并检查主键、缺失和异常日期。网页是静态 HTML/CSS/JS，可在本机打开预览。
 
 ## 第二案例：陶瓷相关零售交易
 
