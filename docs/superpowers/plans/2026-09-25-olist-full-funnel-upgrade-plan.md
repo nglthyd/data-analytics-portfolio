@@ -148,21 +148,21 @@ Keep existing public function `build_metrics(data_dir)` compatible; add optional
 - Modify: `E:\projects\data-analytics-portfolio\queries.sql`
 - Modify: `E:\projects\data-analytics-portfolio\verify.py`
 
-- [ ] **Step 1: Write a failing verifier expectation for new SQL blocks**
+- [x] **Step 1: Write a failing verifier expectation for new SQL blocks**
 
 Expected blocks: existing overall/channel/monthly plus mapping audit, lead-level90d rollup, and channel 90-day value summary.
 
-- [ ] **Step 2: Run verifier and confirm it fails because new SQL is absent**
+- [x] **Step 2: Run verifier and confirm it fails because new SQL is absent**
 
-- [ ] **Step 3: Add SQLite SQL using CTEs at explicit grains**
+- [x] **Step 3: Add SQLite SQL using CTEs at explicit grains**
 
 Use one CTE per grain: `eligible_mql`, `deal_map`, `valid_item_rows`, `lead_value`, `channel_value`. Count orders with `COUNT(DISTINCT order_id)` and sum only seller-specific item prices.
 
-- [ ] **Step 4: Compare every channel and overall total with Python**
+- [x] **Step 4: Compare every channel and overall total with Python**
 
 Use exact equality for counts and two-decimal equality for rates/currency. Assert sum of channel MQLs equals eligible MQL count and sum of channel GMV equals lead-level GMV.
 
-- [ ] **Step 5: Run unit tests and real-data verifier**
+- [x] **Step 5: Run unit tests and real-data verifier**
 
 Expected: all tests pass and verifier prints one explicit PASS line for old funnel checks and one for full-funnel checks.
 
