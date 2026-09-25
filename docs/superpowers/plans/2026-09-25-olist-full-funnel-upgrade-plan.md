@@ -204,31 +204,31 @@ Order: business problem → headline findings → charts/site → data flow → 
 - Modify: `data/metrics.js`, `index.html`, `app.js`, `styles.css`
 - Test: `verify_page.py`
 
-- [ ] **Step 1: Write failing browser assertions**
+- [x] **Step 1: Write failing browser assertions**
 
 Required IDs: `channel-chart`, `funnel-chart`, `value-matrix`, `gmv-chart`. Assert non-empty generated marks, accessible labels, correct table rows, zero console errors, and no horizontal overflow at 1440×900 and 390×844.
 
-- [ ] **Step 2: Run browser test and verify RED**
+- [x] **Step 2: Run browser test and verify RED**
 
 Expected: missing new chart selectors.
 
-- [ ] **Step 3: Extend `metrics.js` from verified real-data output**
+- [x] **Step 3: Extend `metrics.js` from verified real-data output**
 
 No manually invented numbers. Include audit coverage, funnel stages, channel value metrics, and annotation thresholds.
 
-- [ ] **Step 4: Add semantic HTML and table fallbacks**
+- [x] **Step 4: Add semantic HTML and table fallbacks**
 
 Each chart gets a question title, one-sentence interpretation, sample size, metric definition, and limitations link.
 
-- [ ] **Step 5: Render native SVG/CSS charts**
+- [x] **Step 5: Render native SVG/CSS charts**
 
 Build: enhanced conversion bars, full-funnel steps, conversion×GMV bubble plot, and 90-day GMV/MQL bars. Use one signal color plus one warning color; flag unknown/missing/low sample channels.
 
-- [ ] **Step 6: Add responsive and accessible styles**
+- [x] **Step 6: Add responsive and accessible styles**
 
 Keyboard focus, reduced motion, SVG title/description, readable mobile labels, and no CDN dependencies.
 
-- [ ] **Step 7: Run browser tests, inspect fresh desktop/mobile screenshots, and fix visual defects**
+- [x] **Step 7: Run browser tests, inspect fresh desktop/mobile screenshots, and fix visual defects**
 
 ### Task 7: Publish only the verified repository state
 
