@@ -1,39 +1,75 @@
-# 刘涛的数据分析作品集
+# 刘涛｜数据分析作品集
 
-本仓库是刘涛的公开数据分析作品集，包含两个案例：Olist 营销漏斗渠道分析与陶瓷相关零售交易分析。网页入口为仓库根目录的 `index.html`；页面个人信息仅展示姓名和本人授权的联系电话。
+这是一个面向数据分析/数据运营岗位的可复现作品集。主案例把 Olist 营销线索与电商订单接成一条可审计链路：**MQL → 成交 → 可观测商家 → 首次接触后 90 天已交付订单 → 商品 GMV**。第二案例展示陶瓷相关零售交易的清洗与 BI 看板。
 
-## 主案例：Olist 获客渠道
+**在线页面：** [nglthyd.github.io/data-analytics-portfolio](https://nglthyd.github.io/data-analytics-portfolio/)
 
-问题是“哪些渠道值得继续验证”，而不是在缺少成本数据时强行给渠道 ROI 排名。分析使用 [Olist 官方营销分析题](https://github.com/olist/work-at-olist-marketing)所指向的 [Marketing Funnel by Olist](https://www.kaggle.com/datasets/olistbr/marketing-funnel-olist) 两张匿名抽样表。该题是历史公开案例，**不是正在招聘的岗位**。
+## 主案例：Olist 获客质量与 90 天可观测价值
 
-- 全量：8,000 条 MQL，842 条成交，成交率 10.53%。
-- 固定线索期（2018-01-01 至 2018-04-30）：4,695 条 MQL，651 条成交，成交率 13.87%。
-- 同期付费搜索：916 条线索、145 条成交，15.83%；自然搜索：1,392 条、213 条，15.30%；社交：782 条、55 条，7.03%。
-- 两表 `mql_id` 均无重复，842 条成交都可匹配；60 条线索缺来源，1 条成交日期早于首次联系日期。
+### 业务问题
 
-核心口径：分母是线索期内的全部 MQL；分子是这些 MQL 能关联到的成交记录。`unknown` 与空值独立展示，不被偷偷分配给其他渠道。渠道比较是观察性结果；没有成本和后续卖家价值，不能计算 CAC、ROI 或增量贡献，也不应凭成交率直接调整预算。
+只看成交率会把“带来成交”误当成“带来后续价值”。本案例回答三个更接近业务的问题：
 
-## 如何复算
+1. 各渠道带来的 MQL 有多少、成交率如何？
+2. 成交商家中，有多少能在公开订单样本里继续观察并在 90 天内激活？
+3. 在相同线索期和相同观察窗下，各渠道的可观测商品 GMV/MQL 有何差异？
 
-需要 Python 3.10+ 与 `pandas`。从原始数据页下载并解压以下两张 CSV 至同一目录：
+### 关键结果
 
-- `olist_marketing_qualified_leads_dataset.csv`
-- `olist_closed_deals_dataset.csv`
+- 全量 8,000 条 MQL 中有 842 个成交；其中 380 个成交商家能映射到公开电商样本，245 个在首次接触后 90 天内产生已交付订单。
+- 完整 90 天观察样本累计 1,693 个订单、可观测商品 GMV 261,665.04，平均每条 MQL 为 32.71。
+- 固定线索期（2018-01-01 至 2018-04-30）内，付费搜索与自然搜索成交率接近（15.83% 与 15.30%），但付费搜索的 90 天激活率和可观测 GMV/MQL 更高（6.00%、59.41 对 4.31%、46.70）。这只是优先验证信号，不是因果结论。
+- 社交渠道同期成交率 7.03%、90 天激活率 1.41%、可观测 GMV/MQL 7.87，三个阶段都偏弱，值得优先排查流量质量与承接流程。
+- `unknown` 的可观测 GMV/MQL 虽高，但来源不可识别，不能当成可执行渠道；应先修复归因。
 
-在 PowerShell 中运行：
+### 结论边界
 
-```powershell
-python -m pip install pandas
-python .\analysis.py --data-dir '你的原始CSV目录'
-python .\verify.py --data-dir '你的原始CSV目录'
+这里的 GMV 只汇总 `order_items.price`，不含运费、成本、渠道费用、退款净额和利润，因此**不是 ROI、CAC、利润或完整 LTV**。842 个成交商家中有 462 个不在公开订单样本里，下游结果是可观测样本的下界，不等于全部成交商家的真实价值。渠道差异来自历史观察数据，不能直接解释为渠道的因果效果。
+
+## 数据链路与实现
+
+```text
+MQL（每条线索一行）
+  └─ mql_id → Closed deals（成交及 seller_id）
+                  └─ seller_id → Sellers / Order items（商家商品行）
+                                      └─ order_id → Orders（状态与购买时间）
 ```
 
-把示例路径换成你保存 CSV 的目录。`analysis.py` 生成网页使用的 `data/metrics.js`；`verify.py` 用内存 SQLite 独立执行 [`queries.sql`](queries.sql) 中三组 SQL，与 Python 的总量、渠道和月度结果逐项比对，并检查主键、缺失和异常日期。网页是静态 HTML/CSS/JS，可在本机打开预览。
+- Python/pandas：数据契约、日期清洗、MQL 级 90 天价值表、渠道汇总和网页指标导出。
+- SQLite：用独立 CTE 查询重新计算总量、渠道和 90 天价值，逐项与 Python 对账。
+- HTML/CSS/JavaScript/SVG：不依赖外部图表 CDN，由 `data/metrics.js` 动态绘图。
+- unittest + 页面烟雾测试：锁定时间边界、零值保留、重复键、多商家订单粒度和移动端布局。
+
+详细说明：
+
+- [数据字典与五表关系](docs/data_dictionary.md)
+- [指标口径与分析方法](docs/methodology.md)
+- [真实数据验证报告](docs/validation_report.md)
+- [数据来源、授权与参考](docs/references.md)
+
+## 如何复现
+
+需要 Python 3.10+。原始 CSV 不在仓库中重新分发；请从 Olist 的两个公开数据页下载并分别解压到营销目录和电商目录。
+
+```powershell
+python -m pip install -r .\requirements.txt
+python .\analysis.py `
+  --data-dir '你的营销CSV目录' `
+  --ecommerce-dir '你的电商CSV目录'
+python .\verify.py `
+  --data-dir '你的营销CSV目录' `
+  --ecommerce-dir '你的电商CSV目录'
+python -m unittest -v test_analysis.py test_repository.py
+```
+
+`analysis.py` 生成页面唯一读取的 `data/metrics.js`；`verify.py` 把五张原始表载入内存 SQLite，独立执行 [`queries.sql`](queries.sql) 中 6 组查询。完整命令、文件哈希和核验结果见[验证报告](docs/validation_report.md)。
 
 ## 第二案例：陶瓷相关零售交易
 
-从公开英国零售数据中按陶瓷相关关键词形成审计子集：22,427 条原始匹配记录，保留 21,655 条历史有效交易；78 个商品、2,585 个客户。有效销售额 GBP 450,066.19 使用进一步排除退款、零价和非正数量后的 21,541 条严格销售记录。页面展示看板截图。该子集不代表中国陶瓷行业整体，也不包含另一个拍卖数据源；不把关键词命中视为完美的行业分类。
+从公开英国零售数据中按陶瓷相关关键词形成审计子集：22,427 条原始匹配记录，保留 21,655 条历史有效交易，覆盖 78 个商品、2,585 个客户。进一步排除退款、零价和非正数量后，21,541 条严格销售记录对应有效销售额 GBP 450,066.19。该子集不代表中国陶瓷行业整体，也不包含另一个拍卖数据源；关键词命中不等于完美行业分类。
 
 ## 数据授权与 AI 协作
 
-Olist 原始 CSV 不在本仓库重新分发。原数据页标注 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)；这里的分析是非商业求职展示，并明确归因 Olist。页面和分析脚本由 Codex 辅助制作，数值通过原始 CSV 与独立 SQL 核验。仓库中有代码并不等于本人已能脱离辅助独立复述全部细节；面试前需要按 README 和脚本逐项复盘。
+Olist 数据归原作者所有，来源和授权见[参考页](docs/references.md)。本仓库不重新分发原始 CSV。
+
+本项目使用 Codex 协助检索资料、编写代码和搭建页面。我的责任是确定业务问题和口径、核对数据来源、审查 JOIN 与时间窗、运行 Python/SQL 双重验证并理解最终结论。**AI 协作不是把生成内容直接当答案**；关键数字必须能够从原始数据复算，限制必须明确披露。

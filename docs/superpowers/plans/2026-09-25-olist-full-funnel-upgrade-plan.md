@@ -172,31 +172,31 @@ Expected: all tests pass and verifier prints one explicit PASS line for old funn
 - Create: `requirements.txt`, `docs/data_dictionary.md`, `docs/methodology.md`, `docs/validation_report.md`, `docs/references.md`
 - Modify: `README.md`
 
-- [ ] **Step 1: Write documentation-link tests before documents**
+- [x] **Step 1: Write documentation-link tests before documents**
 
 The test must fail until README links to all four documents and all linked paths exist.
 
-- [ ] **Step 2: Write the data dictionary and relationship diagram**
+- [x] **Step 2: Write the data dictionary and relationship diagram**
 
 For each table: grain, primary key, foreign key, used columns, excluded columns, and quality issues.
 
-- [ ] **Step 3: Write methodology and formulas**
+- [x] **Step 3: Write methodology and formulas**
 
 Include numerator, denominator, time anchor, 90-day boundary, valid-order rule, zero preservation, mapping coverage, and why GMV is not ROI/LTV.
 
-- [ ] **Step 4: Generate the validation report from fresh real-data output**
+- [x] **Step 4: Generate the validation report from fresh real-data output**
 
 Do not hand-copy unverifiable numbers. Include command, timestamp, hashes, PASS checks, audit counts, and remaining anomalies.
 
-- [ ] **Step 5: Write references and attribution**
+- [x] **Step 5: Write references and attribution**
 
 Official Olist sources first; high-engagement public analyses only as labeled design references. State AI collaboration and Apache/CC license boundaries accurately.
 
-- [ ] **Step 6: Rewrite README for recruiters**
+- [x] **Step 6: Rewrite README for recruiters**
 
 Order: business problem → headline findings → charts/site → data flow → reproducibility → validation → limitations → attribution.
 
-- [ ] **Step 7: Run documentation tests and link checks**
+- [x] **Step 7: Run documentation tests and link checks**
 
 ### Task 6: Add four meaningful charts to the site
 
