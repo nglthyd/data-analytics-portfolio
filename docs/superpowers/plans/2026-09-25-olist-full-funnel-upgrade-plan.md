@@ -67,7 +67,7 @@ Use `apply_patch`; never write raw data or personal paths into the public README
 - Create: `E:\projects\data-analytics-portfolio\test_analysis.py`
 - Modify later: `E:\projects\data-analytics-portfolio\analysis.py`
 
-- [ ] **Step 1: Write failing tests for the desired API**
+- [x] **Step 1: Write failing tests for the desired API**
 
 Tests must import these not-yet-present functions:
 
@@ -88,7 +88,7 @@ assert summary.loc["paid_search", "mqls"] == 2
 assert summary.loc["paid_search", "gmv_per_mql_90d"] == expected
 ```
 
-- [ ] **Step 2: Run the targeted test and verify RED**
+- [x] **Step 2: Run the targeted test and verify RED**
 
 ```powershell
 python -m unittest -v test_analysis.py
@@ -96,11 +96,11 @@ python -m unittest -v test_analysis.py
 
 Expected: import failure for the new functions, proving the feature is absent.
 
-- [ ] **Step 3: Add tests for data-contract failures**
+- [x] **Step 3: Add tests for data-contract failures**
 
 Duplicate `mql_id`, duplicate `order_id + order_item_id`, unmatched closed-deal MQL, and invalid dates must raise clear `ValueError` or `AssertionError` messages.
 
-- [ ] **Step 4: Run again and confirm failures are caused by missing behavior, not fixture errors**
+- [x] **Step 4: Run again and confirm failures are caused by missing behavior, not fixture errors**
 
 ### Task 3: Implement the lead-level 90-day value model
 
@@ -108,11 +108,11 @@ Duplicate `mql_id`, duplicate `order_id + order_item_id`, unmatched closed-deal 
 - Modify: `E:\projects\data-analytics-portfolio\analysis.py`
 - Test: `E:\projects\data-analytics-portfolio\test_analysis.py`
 
-- [ ] **Step 1: Add source constants and schemas**
+- [x] **Step 1: Add source constants and schemas**
 
 Required files: MQL, closed deals, sellers, orders, order items. Validate required columns before calculations.
 
-- [ ] **Step 2: Implement `build_lead_value_table` minimally**
+- [x] **Step 2: Implement `build_lead_value_table` minimally**
 
 Behavior:
 
@@ -128,19 +128,19 @@ valid_item = (
 
 Aggregate item `price` by `mql_id`; count distinct `order_id`; left join results back to every eligible MQL; fill missing order and GMV values with zero.
 
-- [ ] **Step 3: Implement `summarize_value_by_channel`**
+- [x] **Step 3: Implement `summarize_value_by_channel`**
 
 Output columns: `origin`, `mqls`, `wins`, `mapped_sellers`, `activated_sellers_90d`, `conversion_pct`, `activation_pct`, `orders_90d`, `gmv_90d`, `orders_per_mql_90d`, `gmv_per_mql_90d`.
 
-- [ ] **Step 4: Run unit tests and verify GREEN**
+- [x] **Step 4: Run unit tests and verify GREEN**
 
 Expected: all synthetic tests pass with no warnings.
 
-- [ ] **Step 5: Refactor loading, auditing, and metric construction into focused functions**
+- [x] **Step 5: Refactor loading, auditing, and metric construction into focused functions**
 
 Keep existing public function `build_metrics(data_dir)` compatible; add optional `ecommerce_dir` for upgraded output.
 
-- [ ] **Step 6: Run the entire unit suite again**
+- [x] **Step 6: Run the entire unit suite again**
 
 ### Task 4: Build independent SQLite verification
 
