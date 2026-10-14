@@ -1,6 +1,10 @@
 __pycache__/
 *.pyc
 .venv/
+local/
+deliverables/
+qa/
+.serena/
 *.zip
 *.csv
 *.docx

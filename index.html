@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <script defer src="data/metrics.js"></script>
     <script defer src="app.js"></script>
+    <script defer src="ops.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">跳到正文</a>
@@ -17,6 +18,7 @@
         <nav>
           <a href="#olist">全链路分析</a>
           <a href="#evidence">分析证据</a>
+          <a href="#merchant-ops">商家运营</a>
           <a href="#ceramic">零售分析</a>
           <a href="#method">方法与边界</a>
           <a href="#contact">联系我</a>
@@ -28,8 +30,8 @@
         <header class="hero" id="top">
           <div class="hero-copy">
             <p class="kicker">求职方向：数据分析 / 数据运营</p>
-            <h1>不只看成交率，<br>继续追问成交后的价值。</h1>
-            <p class="hero-intro">主案例把营销线索、成交商家和订单商品连接起来，在统一的 90 天窗口中比较渠道质量。每个关键数字都能回到原始数据、指标口径和独立 SQL 验证。</p>
+            <h1>Olist 电商获客质量<br>与商家运营分析</h1>
+            <p class="hero-intro">从渠道线索到商家激活和经营表现，先核验数据，再定位业务信号，最后提出可验证的运营行动。分析基于历史公开样本；建议尚未上线实施。</p>
             <div class="hero-actions">
               <a class="button primary" href="#olist">查看主案例</a>
               <a class="button quiet" href="https://github.com/nglthyd/data-analytics-portfolio" target="_blank" rel="noopener noreferrer">查看代码</a>
@@ -138,6 +140,39 @@
           </div>
         </section>
 
+        <section class="case" id="merchant-ops" aria-labelledby="merchant-title">
+          <div class="section-heading">
+            <p class="section-type">商家运营 · 从观察结果到验证行动</p>
+            <h2 id="merchant-title">成交以后，哪些商家需要进一步了解？</h2>
+            <p>这里分析的是商家，不是消费者点击路径。先区分覆盖未知、观察期不足、日期异常和真实可观测状态，再讨论激活和经营支持。</p>
+          </div>
+          <div class="metrics-line metrics-four" aria-label="商家运营合格样本">
+            <div><span>合格可观测成交商家</span><strong id="ops-eligible">—</strong></div>
+            <div><span>可观测但90天未激活</span><strong id="ops-no-activation">—</strong></div>
+            <div><span>合格商家组内激活率</span><strong id="ops-activation">—</strong></div>
+            <div><span>日期异常单独审计</span><strong id="ops-anomalies">—</strong></div>
+          </div>
+          <p class="metrics-context standalone" id="ops-scope">商家分母和MQL分母不同；样本不可观测不等于流失。等待分析数据。</p>
+          <div class="ops-figures">
+            <figure><a href="assets/ops-states.svg" target="_blank" rel="noopener"><img src="assets/ops-states.svg" alt="成交商家观察状态图" loading="lazy"></a><figcaption>图5 · 先区分未知覆盖与可观测状态；点击图可放大。</figcaption></figure>
+            <figure><a href="assets/ops-cohorts.svg" target="_blank" rel="noopener"><img src="assets/ops-cohorts.svg" alt="首次接触月份与90天商家激活图" loading="lazy"></a><figcaption>图6 · 每月使用完整观察窗；样本数与覆盖见下方明细。</figcaption></figure>
+            <figure><a href="assets/ops-concentration.svg" target="_blank" rel="noopener"><img src="assets/ops-concentration.svg" alt="合格正GMV商家贡献集中度图" loading="lazy"></a><figcaption>图7 · 识别贡献集中，而不是预测流失或承诺维护收益。</figcaption></figure>
+            <figure><a href="assets/ops-segments.svg" target="_blank" rel="noopener"><img src="assets/ops-segments.svg" alt="运营分组的90天商品GMV图" loading="lazy"></a><figcaption>图8 · 高贡献采用样本q75阈值；同时检查q70和q80敏感性。</figcaption></figure>
+            <figure><a href="assets/ops-coverage.svg" target="_blank" rel="noopener"><img src="assets/ops-coverage.svg" alt="渠道成交商家可观测覆盖率图" loading="lazy"></a><figcaption>图9 · 覆盖差异会影响渠道比较；覆盖率不是行为转化率。</figcaption></figure>
+          </div>
+          <details class="detail-table"><summary>查看月份分母、激活与商品GMV</summary><div class="table-wrap"><table><thead><tr><th>接触月份</th><th>成交商家</th><th>合格可观测</th><th>已激活</th><th>组内激活率</th><th>商品GMV R$</th></tr></thead><tbody id="ops-cohort-table"></tbody></table></div></details>
+          <div class="ops-actions">
+            <h3>运营优先级</h3>
+            <p><b>P0 数据核验：</b>先处理日期异常、来源缺失和映射缺口；没有可靠对象与口径，不能直接触达或调整预算。</p>
+            <p><b>P1 激活试点：</b>对合格可观测未激活商家，先排查承接、上架与供给，再测试经营支持；这些原因是待验证假设。</p>
+            <p><b>P2 经营维护：</b>了解高贡献商家和其他已激活商家的经营需求，同时核查贡献集中是否形成经营依赖，不把历史高GMV当成必然高收益。</p>
+            <h3>验证方案尚未执行</h3>
+            <p>拟在取得真实入驻与订单日志、确认试点资格后按商家随机分组，比较常规服务与新增激活支持。核心指标为固定时间内有效首单率；保护指标包括取消率、投诉率和服务成本。公开样本只用于提出方案，不能代替上线实验结果。</p>
+            <p>若中间指标改善但有效首单率不变，不能宣布成功；先检查样本量、执行到位率与首单链路，再判断是否继续。</p>
+          </div>
+          <p class="source-line"><a href="docs/business_report.md">业务分析报告</a><a href="docs/operations_plan.md">运营与验证方案</a><a href="docs/understanding_guide.md">项目理解说明</a><a href="docs/upgrade_validation.md">升级核验记录</a></p>
+        </section>
+
         <section class="case ceramic-case" id="ceramic" aria-labelledby="ceramic-title">
           <div class="section-heading">
             <p class="section-type">第二案例 · 零售经营分析</p>
@@ -164,11 +199,11 @@
             <h2 id="method-title">把最容易算错的地方公开</h2>
           </div>
           <div class="method-grid">
-            <div><h3>统一分母与观察窗</h3><p>每条完整观察 MQL 保留一行；未成交、不可映射和无订单均为 0。窗口以首次接触为起点，采用 `[0, 90)`，第 90 天不计入。</p></div>
+            <div><h3>统一分母与观察窗</h3><p>每条完整观察MQL保留一行。未匹配商家在“样本内可观测贡献”中为0，但真实经营价值未知；商家运营表用空值保留未知。窗口为首次接触后 `[0, 90)`。</p></div>
             <div><h3>控制 JOIN 粒度</h3><p>1,278 个订单包含多个商家。商品 GMV 在商家商品行上归属，订单数才按 <code>order_id</code> 去重，避免把整单金额重复分配。</p></div>
             <div><h3>双重验证</h3><p>Python 生成 MQL 级价值表；SQLite 用 6 组独立查询重算总量和渠道结果。单元测试覆盖第 89/90 天、取消订单、成交前订单和重复键。</p></div>
             <div><h3>结论边界</h3><p>462 个成交商家不在公开订单样本；缺少成本、利润和随机实验。可观测 GMV 不是 ROI、完整 LTV 或因果增量。</p></div>
-            <div><h3>AI 协作说明</h3><p>Codex 协助资料检索、编码和页面实现；本人负责问题定义、口径确认、来源核对、异常审查、运行验证和理解最终结论。</p></div>
+            <div><h3>AI 协作说明</h3><p>Codex辅助资料检索、分析实现、页面与自动核验。本人的理解和独立完成能力需要另行验证；本页不把代码与测试产出自动等同于本人已独立掌握。</p></div>
             <div><h3>完整证据链</h3><p><a href="docs/data_dictionary.md">数据字典</a>、<a href="docs/methodology.md">方法公式</a>、<a href="docs/validation_report.md">验证报告</a>和<a href="docs/references.md">来源授权</a>均在仓库公开。</p></div>
           </div>
           <div class="source-line">

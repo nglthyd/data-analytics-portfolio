@@ -1,10 +1,10 @@
 # 刘涛｜数据分析作品集
 
-这是一个面向数据分析/数据运营岗位的可复现作品集。主案例把 Olist 营销线索与电商订单接成一条可审计链路：**MQL → 成交 → 可观测商家 → 首次接触后 90 天已交付订单 → 商品 GMV**。第二案例展示陶瓷相关零售交易的清洗与 BI 看板。
+这是一个面向数据分析/数据驱动运营岗位的可复现作品集。主案例把 Olist 营销线索与电商订单接成一条可审计链路：**MQL → 成交 → 可观测商家 → 首次接触后 90 天已交付订单 → 商品 GMV → 商家运营验证方案**。第二案例展示陶瓷相关零售交易的清洗与 BI 看板。
 
-**在线页面：** [nglthyd.github.io/data-analytics-portfolio](https://nglthyd.github.io/data-analytics-portfolio/)
+**在线页面（当前仍是已发布旧版，本升级候选尚未推送）：** [nglthyd.github.io/data-analytics-portfolio](https://nglthyd.github.io/data-analytics-portfolio/)
 
-## 主案例：Olist 获客质量与 90 天可观测价值
+## 主案例：Olist 获客质量与商家运营分析
 
 ### 业务问题
 
@@ -17,10 +17,12 @@
 ### 关键结果
 
 - 全量 8,000 条 MQL 中有 842 个成交；其中 380 个成交商家能映射到公开电商样本，245 个在首次接触后 90 天内产生已交付订单。
-- 完整 90 天观察样本累计 1,693 个订单、可观测商品 GMV 261,665.04，平均每条 MQL 为 32.71。
+- 完整 90 天观察样本累计 1,693 个商家订单计数、可观测商品 GMV 261,665.04，平均每条 MQL 为 32.71；这里按签约商家分别去重订单后再累计，不等于全站唯一订单数。
 - 固定线索期（2018-01-01 至 2018-04-30）内，付费搜索与自然搜索成交率接近（15.83% 与 15.30%），但付费搜索的 90 天激活率和可观测 GMV/MQL 更高（6.00%、59.41 对 4.31%、46.70）。这只是优先验证信号，不是因果结论。
 - 社交渠道同期成交率 7.03%、90 天激活率 1.41%、可观测 GMV/MQL 7.87，三个阶段都偏弱，值得优先排查流量质量与承接流程。
 - `unknown` 的可观测 GMV/MQL 虽高，但来源不可识别，不能当成可执行渠道；应先修复归因。
+- 商家运营口径单独排除 1 条“成交早于首次接触”的日期异常，379 家进入合格观察组，其中 245 家激活、134 家未激活，组内激活率 64.64%。这与以全部 MQL 为分母的渠道激活率不是同一指标。
+- 245 家正 GMV 商家中，前 25 家贡献 62.32% 的样本内 GMV。该集中度只用于识别经营关注点，不代表流失风险或投入后收益。
 
 ### 结论边界
 
@@ -45,6 +47,11 @@ MQL（每条线索一行）
 - [数据字典与五表关系](docs/data_dictionary.md)
 - [指标口径与分析方法](docs/methodology.md)
 - [真实数据验证报告](docs/validation_report.md)
+- [商家运营分析报告](docs/business_report.md)
+- [运营行动与验证方案](docs/operations_plan.md)
+- [项目理解说明](docs/understanding_guide.md)
+- [一页简历候选表述](docs/resume_portfolio_candidate.md)
+- [升级核验记录](docs/upgrade_validation.md)
 - [数据来源、授权与参考](docs/references.md)
 
 ## 如何复现
@@ -59,10 +66,16 @@ python .\analysis.py `
 python .\verify.py `
   --data-dir '你的营销CSV目录' `
   --ecommerce-dir '你的电商CSV目录'
-python -m unittest -v test_analysis.py test_repository.py
+python .\verify_merchant.py `
+  --data-dir '你的营销CSV目录' `
+  --ecommerce-dir '你的电商CSV目录'
+python .\build_portfolio.py `
+  --data-dir '你的营销CSV目录' `
+  --ecommerce-dir '你的电商CSV目录'
+python -m unittest -v
 ```
 
-`analysis.py` 生成页面唯一读取的 `data/metrics.js`；`verify.py` 把五张原始表载入内存 SQLite，独立执行 [`queries.sql`](queries.sql) 中 6 组查询。完整命令、文件哈希和核验结果见[验证报告](docs/validation_report.md)。
+`build_portfolio.py` 同时生成 `data/metrics.js`、聚合运营指标、5 张 SVG 和业务报告；`verify.py` 独立复核旧版 6 组指标，`verify_merchant.py` 通过 [`merchant_queries.sql`](merchant_queries.sql) 从原始五表重算并逐商家对账。完整命令、文件哈希和核验结果见[升级核验记录](docs/upgrade_validation.md)。
 
 ## 第二案例：陶瓷相关零售交易
 

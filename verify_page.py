@@ -25,6 +25,10 @@ def run() -> None:
             assert page.locator("#focus-conversion").inner_text() == "13.87%"
             assert page.locator("#observable-sellers").inner_text() == "380"
             assert page.locator("#activated-sellers").inner_text() == "245"
+            assert page.locator("#ops-eligible").inner_text() == "379"
+            assert page.locator("#ops-no-activation").inner_text() == "134"
+            assert page.locator("#ops-activation").inner_text() == "64.64%"
+            assert page.locator("#ops-anomalies").inner_text() == "1"
             for chart_id in ("channel-chart", "funnel-chart", "value-matrix", "gmv-chart"):
                 chart = page.locator(f"#{chart_id}")
                 assert chart.count() == 1, f"missing #{chart_id}"
@@ -37,6 +41,15 @@ def run() -> None:
             assert page.locator("#channel-table tr").count() == 11
             assert page.locator("#value-table tr").count() == 11
             assert page.locator("#channel-table").get_by_text("未知来源").count() == 1
+            assert page.locator("#ops-cohort-table tr").count() == 11
+            assert "等待分析数据" not in page.locator("#merchant-ops").inner_text()
+            operation_images = page.locator("#merchant-ops img")
+            assert operation_images.count() == 5
+            for index in range(operation_images.count()):
+                operation_images.nth(index).scroll_into_view_if_needed()
+                assert operation_images.nth(index).evaluate(
+                    "img => img.complete && img.naturalWidth > 0"
+                )
             assert page.locator(".preview img").evaluate("img => img.complete && img.naturalWidth > 0")
             assert not errors, errors
             overflow = page.evaluate("document.documentElement.scrollWidth - window.innerWidth")
