@@ -30,11 +30,15 @@ async function inspect(viewport, name) {
   const page = await browser.newPage({ viewport });
   page.on("pageerror", error => errors.push(`${name}: ${error.message}`));
   page.on("console", message => {
-    if (message.type() === "error") errors.push(`${name}: console ${message.text()}`);
+    if (message.type() === "error") errors.push(`${name}: console ${message.text()} at ${message.location().url}`);
+  });
+  page.on("response", response => {
+    if (response.status() >= 400) errors.push(`${name}: HTTP ${response.status()} ${response.url()}`);
   });
   const response = await page.goto(onlineBase || pathToFileURL(path.join(root, "index.html")).href, { waitUntil: "load" });
   if (onlineBase) check(response?.status() === 200, `${name}: online page did not return HTTP 200`);
   check(await page.locator('meta[name="portfolio-version"]').getAttribute("content") === "olist-ops-20261015", `${name}: stale page version`);
+  check(await page.locator('link[rel="icon"]').getAttribute("href") === "assets/favicon.svg", `${name}: project favicon is missing`);
   await page.waitForFunction(() => document.querySelector("#ops-eligible")?.textContent !== "—");
 
   const visible = await page.locator("#merchant-ops").isVisible();
