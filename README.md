@@ -2,7 +2,9 @@
 
 这是一个面向数据分析/数据驱动运营岗位的可复现作品集。主案例把 Olist 营销线索与电商订单接成一条可审计链路：**MQL → 成交 → 可观测商家 → 首次接触后 90 天已交付订单 → 商品 GMV → 商家运营验证方案**。第二案例展示陶瓷相关零售交易的清洗与 BI 看板。
 
-**在线页面（当前仍是已发布旧版，本升级候选尚未推送）：** [nglthyd.github.io/data-analytics-portfolio](https://nglthyd.github.io/data-analytics-portfolio/)
+**在线页面：** [nglthyd.github.io/data-analytics-portfolio](https://nglthyd.github.io/data-analytics-portfolio/)
+
+2026-10-15 更新：加入商家观察状态、月份激活、贡献集中度、运营分组与渠道覆盖共5张图，以及尚未执行的商家激活试点方案。网页发布不代表运营试点已经实施。
 
 ## 主案例：Olist 获客质量与商家运营分析
 

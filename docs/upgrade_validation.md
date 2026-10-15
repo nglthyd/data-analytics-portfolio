@@ -5,7 +5,7 @@
 - 候选工作目录：`data-analytics-portfolio-upgrade`
 - 基线公开提交：`5e73c74d0e54fc6cdc5fd4ac9e166408d258c247`
 - 本地分支：`codex/olist-ops-upgrade`
-- 状态：候选版本，未合并、未推送、未发布；旧工作目录和原始CSV未覆盖。
+- 发布授权：2026-10-15用户要求将升级版同步到原GitHub Pages。旧工作目录和原始CSV不覆盖；网站版本标识为 `olist-ops-20261015`，发布提交以GitHub的main分支为准。
 
 ## 原始数据指纹
 
@@ -32,6 +32,7 @@
 - `verify_page.mjs`：Microsoft Edge无头模式下完成1440px桌面与390px手机验收；旧版与新增指标均渲染，5张SVG加载成功，月份表行数一致，无脚本错误和横向溢出。
 - Word理解手册经Microsoft Word只读导出为6页内部QA PDF并逐页检查；标题边框和空白尾页已修正，最终6页无截断、重叠或破表。可访问性审计为high=0、medium=0、low=0。
 - 公开候选文件扫描未发现本机用户目录、D盘项目根或E盘路径；聚合输出未包含seller、MQL、order或customer原始ID。
+- 发布门禁重跑：31项单元测试、原有6组SQL核验、新版842商家逐行SQL核验与本地双视口测试。`verify_page.mjs` 可通过 `PORTFOLIO_BASE_URL` 指向线上，用相同断言核对版本、数字、5张图和移动布局，避免仅确认代码已推送就宣布上线。
 
 内置文档渲染脚本所需的LibreOffice不在当前工作区依赖中，因此Word视觉QA使用本机Microsoft Word只读导出完成；这不改变交付DOCX内容。
 

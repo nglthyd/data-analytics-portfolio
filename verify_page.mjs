@@ -24,6 +24,7 @@ const browser = await chromium.launch({
   args: ["--allow-file-access-from-files"],
 });
 const errors = [];
+const onlineBase = process.env.PORTFOLIO_BASE_URL;
 
 async function inspect(viewport, name) {
   const page = await browser.newPage({ viewport });
@@ -31,7 +32,9 @@ async function inspect(viewport, name) {
   page.on("console", message => {
     if (message.type() === "error") errors.push(`${name}: console ${message.text()}`);
   });
-  await page.goto(pathToFileURL(path.join(root, "index.html")).href, { waitUntil: "load" });
+  const response = await page.goto(onlineBase || pathToFileURL(path.join(root, "index.html")).href, { waitUntil: "load" });
+  if (onlineBase) check(response?.status() === 200, `${name}: online page did not return HTTP 200`);
+  check(await page.locator('meta[name="portfolio-version"]').getAttribute("content") === "olist-ops-20261015", `${name}: stale page version`);
   await page.waitForFunction(() => document.querySelector("#ops-eligible")?.textContent !== "—");
 
   const visible = await page.locator("#merchant-ops").isVisible();
@@ -40,6 +43,10 @@ async function inspect(viewport, name) {
   check((await page.locator("#ops-no-activation").textContent()).trim() === String(ops.summary.observable_no_activation), `${name}: no-activation metric differs`);
   check((await page.locator("#ops-anomalies").textContent()).trim() === String(ops.summary.chronology_error_closed), `${name}: anomaly metric differs`);
   check((await page.locator("#ops-activation").textContent()).trim() === `${Number(ops.summary.activation_pct_of_eligible).toFixed(2)}%`, `${name}: activation rate differs`);
+  const pageSummary = await page.evaluate(() => window.OLIST_METRICS.merchant_ops.summary);
+  for (const key of ["total_closed", "eligible_closed", "activated", "observable_no_activation", "unknown_coverage_closed", "orders_90d", "gmv_90d"]) {
+    check(pageSummary[key] === ops.summary[key], `${name}: online/local ${key} differs`);
+  }
   check((await page.locator("#all-leads").textContent()).trim() !== "—", `${name}: legacy metrics did not render`);
   check(await page.locator("#channel-chart .channel-row").count() > 0, `${name}: legacy channel chart did not render`);
   check(await page.locator("#ops-cohort-table tr").count() === ops.cohorts.length, `${name}: cohort row count differs`);
@@ -55,8 +62,9 @@ async function inspect(viewport, name) {
   }
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   check(overflow <= 1, `${name}: horizontal overflow ${overflow}px`);
-  await page.screenshot({ path: path.join(screenshotDir, `${name}.png`), fullPage: true });
-  await page.locator("#merchant-ops").screenshot({ path: path.join(screenshotDir, `${name}-merchant.png`) });
+  const prefix = onlineBase ? "online-" : "";
+  await page.screenshot({ path: path.join(screenshotDir, `${prefix}${name}.png`), fullPage: true });
+  await page.locator("#merchant-ops").screenshot({ path: path.join(screenshotDir, `${prefix}${name}-merchant.png`) });
   await page.close();
 }
 
@@ -78,7 +86,7 @@ try {
   await inspect({ width: 1440, height: 900 }, "desktop");
   await inspect({ width: 390, height: 844 }, "mobile");
   check(errors.length === 0, `browser errors: ${errors.join(" | ")}`);
-  console.log(JSON.stringify({ status: "PAGE_QA_OK", screenshots: 4, errors: 0 }));
+  console.log(JSON.stringify({ status: "PAGE_QA_OK", target: onlineBase || "local", version: "olist-ops-20261015", screenshots: 4, errors: 0 }));
 } finally {
   await browser.close();
 }
